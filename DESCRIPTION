@@ -1,0 +1,15 @@
+Package: HiggsML
+Type: Package
+Title: Utilities for the HiggsML Challenge
+Version: 0.1.0
+Author: Ben Anson, Emma Ceccherini, Sam Bowyer
+Maintainer: Ben Anson, Emma Ceccherini, Sam Bowyer
+Description: This package provides some useful functions for analysing the data given in the HiggsML challenge organised by CERN. In particular, functions exist to calculate the approximate median significance (AMS) given lists of predicted and true classes (both with and without normalisation via sample weighting) and to calculate various extra features not included in the original dataset. Since our analysis of the challenge's dataset involved constructing subsets of the dataset with only positive and unlabelled (PU) data, this package also provides the functionality to generate the necessary PU labels.
+License: MIT License
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.2.1
+Roxygen: list(roclets = c("namespace", "rd", "roxytest::testthat_roclet"))
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
