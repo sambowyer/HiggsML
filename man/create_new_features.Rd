@@ -15,9 +15,11 @@ The same dataframe given as an argument but with columns added for each of the e
 \description{
 To improve classification performance, we can calculate these extra features using the provided primitive features.
 Each of these new features has a physical meaning that will hopefully be useful to the classification algorithms.
+We used the formulae found in Tim Salimans' HiggsML Challenge Github project: \url{https://github.com/TimSalimans/HiggsML/}.
 }
 \examples{
 \dontrun{
   create_new_features(training_dataset)
 }
+
 }

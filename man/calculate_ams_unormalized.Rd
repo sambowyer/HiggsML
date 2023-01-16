@@ -2,7 +2,7 @@
 % Please edit documentation in R/calculate_ams.R
 \name{calculate_ams_unormalized}
 \alias{calculate_ams_unormalized}
-\title{Calculate Approximate Median Significance (AMS) Without Sample Weights}
+\title{Calculate Approximate Median Significance (AMS) Without Sample Weight Normalisation}
 \usage{
 calculate_ams_unormalized(y, yhat, w, b_r = 10)
 }

@@ -1,9 +1,12 @@
+# These are simply two helper functions which will not be exported in the package
 is_missing <- function(x) x <= -999
+fillna <- function(x, fillvalue) ifelse(is.na(x),fillvalue, x)
 
 #' Create New Features
 #'
 #' To improve classification performance, we can calculate these extra features using the provided primitive features.
 #' Each of these new features has a physical meaning that will hopefully be useful to the classification algorithms.
+#' We used the formulae found in Tim Salimans' HiggsML Challenge Github project: \url{https://github.com/TimSalimans/HiggsML/}.
 #'
 #' @param df A dataframe containing data from the HiggsML challenge. Must contain all primitive (PRI_) features as columns.
 #'
@@ -14,6 +17,13 @@ is_missing <- function(x) x <= -999
 #' \dontrun{
 #'   create_new_features(training_dataset)
 #' }
+#'
+#' @tests
+#' df = read.csv("../../data/atlas-higgs-challenge-2014-v2.csv")
+#' df_extra = suppressWarnings(create_new_features(df))
+#'
+#' expect_equal(ncol(df_extra), 105)
+#' expect_false(any(is.na(df)))
 create_new_features <- function(df) {
   df[is_missing(df)] <- NA # useful to use NA in calculations below
 

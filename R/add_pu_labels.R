@@ -25,15 +25,32 @@
 #' expect_equal(add_pu_labels(allBackground, 0)$pu0, allZeroes)
 #'
 #' expect_equal(sum(add_pu_labels(allBackground, 0.5)$pu0.5), 50)
+#'
+#' df = read.csv("../../data/atlas-higgs-challenge-2014-v2.csv")
+#' trueBackgroundCount = sum(df$Label == "b")
+#' for (pu.pi in c(seq(0, 0.8, 0.2), 1)){
+#'   df = add_pu_labels(df, pu.pi)
+#' }
+#' expect_equal(sum(df$pu0), 0)
+#' expect_equal(sum(df$pu0.2), ceiling(trueBackgroundCount*0.2))
+#' expect_equal(sum(df$pu0.4), ceiling(trueBackgroundCount*0.4))
+#' expect_equal(sum(df$pu0.6), ceiling(trueBackgroundCount*0.6))
+#' expect_equal(sum(df$pu0.8), ceiling(trueBackgroundCount*0.8))
+#' expect_equal(sum(df$pu1), trueBackgroundCount)
 add_pu_labels <- function(df, pu.pi){
   if (pu.pi < 1){
     pu_label <- rep(1, nrow(df))
-    pu_label[df$Label == "s"] <- 0
+    pu_label[df$Label == "s"] <- 0  # make all signal samples unlabelled (i.e. have label 0)
+
+    #Mislabel (1-pu.pi) proportion of the background samples
     pu_label[sample(which(df$Label=="b"), (1-pu.pi)*sum(df$Label=="b"), replace=F)] <- 0
+
+    # Add the pu labels to the dataframe
     df = cbind(df,pu_label)
     colnames(df)[ncol(df)] <- paste("pu", pu.pi, sep="")
+
   } else if (pu.pi == 1) {
-    # Separate case to avoid potential sampling bugs
+    # Separate case for pu.pi==1 to avoid potential sampling bugs
     df$pu1 = as.numeric(df$Label=="b")
   }
 

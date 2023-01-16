@@ -2,7 +2,7 @@
 
 # File R/add_pu_labels.R: @tests
 
-test_that("Function add_pu_labels() @ L28", {
+test_that("Function add_pu_labels() @ L40", {
   allBackground = data.frame(Label = rep("b", 100))
   allOnes = rep(1, 100)
   expect_equal(add_pu_labels(allBackground, 1)$pu1, allOnes)
@@ -13,5 +13,17 @@ test_that("Function add_pu_labels() @ L28", {
   expect_equal(add_pu_labels(allBackground, 0)$pu0, allZeroes)
   
   expect_equal(sum(add_pu_labels(allBackground, 0.5)$pu0.5), 50)
+  
+  df = read.csv("../../data/atlas-higgs-challenge-2014-v2.csv")
+  trueBackgroundCount = sum(df$Label == "b")
+  for (pu.pi in c(seq(0, 0.8, 0.2), 1)){
+    df = add_pu_labels(df, pu.pi)
+  }
+  expect_equal(sum(df$pu0), 0)
+  expect_equal(sum(df$pu0.2), ceiling(trueBackgroundCount*0.2))
+  expect_equal(sum(df$pu0.4), ceiling(trueBackgroundCount*0.4))
+  expect_equal(sum(df$pu0.6), ceiling(trueBackgroundCount*0.6))
+  expect_equal(sum(df$pu0.8), ceiling(trueBackgroundCount*0.8))
+  expect_equal(sum(df$pu1), trueBackgroundCount)
 })
 

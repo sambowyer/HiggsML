@@ -2,22 +2,51 @@
 
 # File R/calculate_ams.R: @tests
 
-test_that("Function calculate_ams() @ L27", {
+test_that("Function calculate_ams() @ L41", {
   y = rep(0, 5)
   w = rep(1, 5)
   expect_equal(calculate_ams(y, y, w), 30.90362, tolerance=1e-3)
   
   yhat = rep(1, 5)
   expect_equal(calculate_ams_unormalized(y, yhat, w), 0)
+  
+  df = read.csv("../../data/atlas-higgs-challenge-2014-v2.csv")
+  all_signal = rep(0, nrow(df))
+  all_background = rep(1, nrow(df))
+  perfect = df$Label == "b"
+  worst = df$Label == "s"
+  
+  w = df$Weight
+  
+  expect_gt(calculate_ams(perfect, perfect, w), calculate_ams(perfect, worst, w))
+  expect_gt(calculate_ams(perfect, perfect, w), calculate_ams(perfect, all_signal, w))
+  expect_gt(calculate_ams(perfect, perfect, w), calculate_ams(perfect, all_background, w))
+  expect_gt(calculate_ams(perfect, all_signal, w), calculate_ams(perfect, worst, w))
+  expect_equal(calculate_ams(perfect, all_background, w), 0)
 })
 
 
-test_that("Function calculate_ams_unormalized() @ L63", {
+test_that("Function calculate_ams_unormalized() @ L96", {
   y = rep(0, 5)
   w = rep(1, 5)
   expect_equal(calculate_ams_unormalized(y, y, w), 0)
   
   yhat = rep(1, 5)
   expect_equal(calculate_ams_unormalized(y, yhat, w), 0)
+  
+  df = read.csv("../../data/atlas-higgs-challenge-2014-v2.csv")
+  all_signal = rep(0, nrow(df))
+  all_background = rep(1, nrow(df))
+  perfect = df$Label == "b"
+  worst = df$Label == "s"
+  
+  w = df$Weight
+  
+  expect_gt(calculate_ams_unormalized(perfect, perfect, w), calculate_ams_unormalized(perfect, worst, w))
+  expect_gt(calculate_ams_unormalized(perfect, perfect, w), calculate_ams_unormalized(perfect, all_signal, w))
+  expect_gt(calculate_ams_unormalized(perfect, perfect, w), calculate_ams_unormalized(perfect, all_background, w))
+  
+  # Normalisation only makes a different if using a subset of the data
+  expect_false(calculate_ams_unormalized(perfect, all_background, w) == calculate_ams(perfect, all_background, w))
 })
 
