@@ -42,7 +42,7 @@ add_pu_labels <- function(df, pu.pi){
     pu_label <- rep(1, nrow(df))
     pu_label[df$Label == "s"] <- 0  # make all signal samples unlabelled (i.e. have label 0)
 
-    #Mislabel (1-pu.pi) proportion of the background samples
+    # Mislabel (1-pu.pi) proportion of the background samples
     pu_label[sample(which(df$Label=="b"), (1-pu.pi)*sum(df$Label=="b"), replace=F)] <- 0
 
     # Add the pu labels to the dataframe

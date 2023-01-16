@@ -17,3 +17,4 @@ where $y_i$ is the label of event i.
 The AMS is calculated (as per the Challenge document) via:
 $$AMS = \sqrt{2\left((s+b+b_\text{reg}) \ln \left(1 + \frac{s}{b+b_\text{reg}}\right) -s \right)}$$
 where $s$ and $b$ are the (potentially weighted) counts of signal and background samples respectively, and $b_\text{reg}$ is a regularization term, with a suggested value of 10 given in the Challenge.
+
